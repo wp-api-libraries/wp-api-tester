@@ -1,34 +1,31 @@
 <?php
 /*
- * Plugin Name: Bradley's Test es bueno
- * Plugin URI: https://imforza.com
+ * Plugin Name: Prueba de Bradlo es buena.
+ * Plugin URI: https://wp-api-libraries.com
  * Description: Perform API requests.
  * Author: WP API Libraries
  * Version: 1.0.0
  * Author URI: https://wp-api-libraries.com
- * GitHub Plugin URI: https://github.com/bradleymoore111
+ * GitHub Plugin URI: https://github.com/wp-api-libraries
  * GitHub Branch: master
  */
 
-// add_action("admin_init", "do_one_one_one_stuff");
-
+/**
+ * First function. To be filled with code that will be run upon hitting the first button (assuming PERMALINKS are enabled properly).
+ * @return do you like pina coladas
+ */
 function first_button(){
-  $zenapi = get_new_zendesk_instance();
-	$postmarkapi = new PostMarkAPI( '', 'an-api-key-here', true );
-
-  $response = $postmarkapi->get_bounce_dump(1080459824);
+  $response = '';
 
   return $response;
 }
 
+/**
+ * Second function. To be filled with code that will be run upon hitting the second button (assuming PERMALINKS are enabled properly).
+ * @return and getting caught in the rain
+ */
 function second_button(){
-  $zenapi = get_new_zendesk_instance();
-	$postmarkapi = new PostMarkAPI( 'an-api-key-here', '', true );
-
-  $response = $postmarkapi->add_server( array(
-   	'Name' => 'Test Server 2',
-   	'Color' => 'Red',
-  ));
+  $response = '';
 
   return $response;
 }
@@ -38,14 +35,14 @@ function pp($s, $a = ''){
 }
 
 add_action( 'rest_api_init', function () {
-	register_rest_route( 'hostops/v1', 'poke/me/', array(
+	register_rest_route( 'api/v1', 'first', array(
 		'methods'	 => 'get',
 		'callback' => 'first_button',
 	));
 });
 
 add_action( 'rest_api_init', function () {
-	register_rest_route( 'hostops/v1', 'list/me/', array(
+	register_rest_route( 'api/v1', 'second', array(
 		'methods'	 => 'get',
 		'callback' => 'second_button',
 	));
@@ -64,8 +61,8 @@ function wpp_settings_page(){
     <h1>That button</h1>
     <hr>
     <h2>It's that button</h2>
-    <a id="first-button" href="#">Actually that button</a><br>
-    <a id="second-button" href="#">The second button (list tickets)</a>
+    <p><input class="button-primary button" type="button" id="first-button" value="First Button"></p>
+    <p><input class="button-secondary button" type="button" value="Second Button" id="second-button"></p>
     <script>
       jQuery(document).ready(function(){
 
@@ -74,10 +71,10 @@ function wpp_settings_page(){
           jQuery.ajax({
             type: 'get',
             dataType: 'json',
-            url: '/wp-json/hostops/v1/poke/me/',
+            url: '/wp-json/api/v1/first',
             success: function(response) {
-              if(response.duccess == false){
-                alert(response.data);
+              if(response.success == false){
+                console.log(response.data);
               }else{
                 if( response.body && typeof response.body == 'string' ){
                   response.body = JSON.parse( response.body );
@@ -95,10 +92,10 @@ function wpp_settings_page(){
           jQuery.ajax({
             type: 'get',
             dataType: 'json',
-            url: '/wp-json/hostops/v1/list/me/',
+            url: '/wp-json/api/v1/second',
             success: function(response) {
-              if(response.duccess == false){
-                alert(response.data);
+              if(response.success == false){
+                console.log(response.data);
               }else{
                 if( response.body && typeof response.body == 'string' ){
                   response.body = JSON.parse( response.body );
