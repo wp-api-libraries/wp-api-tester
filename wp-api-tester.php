@@ -1,10 +1,10 @@
 <?php
 /*
- * Plugin Name: Prueba de Bradlo es buena.
+ * Plugin Name: A plugin used for running blocks of code at the click of a button (rather than a page refresh).
  * Plugin URI: https://wp-api-libraries.com
  * Description: Perform API requests.
  * Author: WP API Libraries
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author URI: https://wp-api-libraries.com
  * GitHub Plugin URI: https://github.com/wp-api-libraries
  * GitHub Branch: master
