@@ -17,20 +17,20 @@ function secret_message(){
 register_activation_hook( __FILE__, 'tester_settings' );
 
 function tester_settings(){
-  update_option('tester_code', "&lt;?php
+  update_option('tester_code', "<?php
 
 function my_first_function(){
-$" + " + a = 3;
-$" + " + b = 5;
+$" . "a = 3;
+$" . "b = 5;
 
 return array(
-'Hello...' => $" + " + a + $" + " + b,
-'...world!' => $" + " + b - $" + " + a,
+'Hello...' => $" . "a + $" . "b,
+'...world!' => $" . "b - $" . "a,
 'other-secret-stuff' => secret_message(),
 );
 }
 
-return my_first_function();");
+return my_first_function();" );
 }
 
 if( !class_exists( 'WP_API_Tester' ) ){
