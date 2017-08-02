@@ -14,6 +14,25 @@ function secret_message(){
   return "I love you.";
 }
 
+register_activation_hook( __FILE__, 'tester_settings' );
+
+function tester_settings(){
+  update_option('tester_code', "&lt;?php
+
+function my_first_function(){
+$" + " + a = 3;
+$" + " + b = 5;
+
+return array(
+'Hello...' => $" + " + a + $" + " + b,
+'...world!' => $" + " + b - $" + " + a,
+'other-secret-stuff' => secret_message(),
+);
+}
+
+return my_first_function();");
+}
+
 if( !class_exists( 'WP_API_Tester' ) ){
   class WP_API_Tester{
 
@@ -21,7 +40,15 @@ if( !class_exists( 'WP_API_Tester' ) ){
       add_action( 'rest_api_init', function () {
       	register_rest_route( 'api/v1', 'first', array(
       		'methods'	 => 'get',
-      		'callback' => array( &$this, 'first_button' ),
+      		'callback' => array( &$this, 'run_code' ),
+          'permission_callback' => array( &$this, 'permission_callback' ),
+      	));
+      });
+
+      add_action( 'rest_api_init', function () {
+      	register_rest_route( 'api/v1', 'second', array(
+      		'methods'	 => 'get',
+      		'callback' => array( &$this, 'save_code' ),
           'permission_callback' => array( &$this, 'permission_callback' ),
       	));
       });
@@ -29,14 +56,14 @@ if( !class_exists( 'WP_API_Tester' ) ){
       add_action( 'admin_menu', array( &$this, 'wpp_admin_menu' ) );
     }
 
-    /**
-     * First function. To be filled with code that will be run upon hitting the first button (assuming PERMALINKS are enabled properly).
-     * @return do you like pina coladas
-     */
-    public function first_button( $data ){
+    public function run_code( $data ){
       return eval( $data['code'] );
     }
 
+    public function save_code( $data ){
+      update_option( 'tester_code', $data['code'] );
+      return rest_ensure_response( array("success" => true, "message" => "Code successfully saved." ));
+    }
 
     public function wpp_admin_menu(){
       register_setting( 'wpp_defaults', 'wpp_defaults' );
@@ -59,22 +86,12 @@ if( !class_exists( 'WP_API_Tester' ) ){
         <p>This editor is evaluated within the wp-api-tester.php plugin file, and has access to all functions and GLOBAL variables that would otherwise be available at that time.</p>
         <p>As a demonstration, go ahead and click the First Button! The secret_message() function is defined to the rest of PHP, to help illustrate my point.</p>
         <div style="width: 80%;height: 400px;">
-          <div style="width: 80%;height: 400px;" id="editor">&lt;?php
-
-function my_first_function(){
-$a = 3;
-$b = 5;
-
-return array(
-  'Hello...' => $a + $b,
-  '...world!' => $b - $a,
-  'other-secret-stuff' => secret_message(),
-);
-}
-
-return my_first_function();</div>
+          <div style="width: 80%;height: 400px;" id="editor"><?php echo get_option( 'tester_code' ); ?></div>
         </div>
-        <p><input class="button-primary button" type="button" id="first-button" value="First Button"></p>
+        <p>
+          <input class="button-primary button" type="button" id="first-button" value="Run Code">
+          <input class="button-secondary button" type="button" id="second-button" value="Save Code">
+        </p>
         <style type="text/css" media="screen">
           #editor {
             position: absolute;
@@ -101,6 +118,36 @@ return my_first_function();</div>
                 type: 'get',
                 dataType: 'json',
                 url: '/wp-json/api/v1/first',
+                data: {
+                  _wpnonce: wpnonce,
+                  code: code,
+                },
+                success: function(response) {
+                  if(response.success == false){
+                    console.log(response.data);
+                  }else{
+                    if( response.body && typeof response.body == 'string' ){
+                      response.body = JSON.parse( response.body );
+                    }
+
+                    jQuery("#domain-output").html( '<pre>' + JSON.stringify( response, null, 4 ) + '</pre>');
+                  }
+                }
+              }); // end ajax
+
+            }); // end button on click
+
+            jQuery("#second-button").on('click', function(){
+              var wpnonce = jQuery('#localized-info').attr('data-rest-nonce');
+
+              var code = editor.getValue();
+
+              code = code.replace(/</g, "&lt;");
+
+              jQuery.ajax({
+                type: 'get',
+                dataType: 'json',
+                url: '/wp-json/api/v1/second',
                 data: {
                   _wpnonce: wpnonce,
                   code: code,
