@@ -10,6 +10,10 @@
  * GitHub Branch: master
  */
 
+function secret_message(){
+  return "I love you.";
+}
+
 if( !class_exists( 'WP_API_Tester' ) ){
   class WP_API_Tester{
 
@@ -22,14 +26,6 @@ if( !class_exists( 'WP_API_Tester' ) ){
       	));
       });
 
-      add_action( 'rest_api_init', function () {
-      	register_rest_route( 'api/v1', 'second', array(
-      		'methods'	 => 'get',
-      		'callback' => array( &$this, 'second_button' ),
-          'permission_callback' => array( &$this, 'permission_callback' ),
-      	));
-      });
-
       add_action( 'admin_menu', array( &$this, 'wpp_admin_menu' ) );
     }
 
@@ -37,21 +33,10 @@ if( !class_exists( 'WP_API_Tester' ) ){
      * First function. To be filled with code that will be run upon hitting the first button (assuming PERMALINKS are enabled properly).
      * @return do you like pina coladas
      */
-    public function first_button(){
-      $response = '';
-
-      return $response;
+    public function first_button( $data ){
+      return eval( $data['code'] );
     }
 
-    /**
-     * Second function. To be filled with code that will be run upon hitting the second button (assuming PERMALINKS are enabled properly).
-     * @return and getting caught in the rain
-     */
-    public function second_button(){
-      $response = '';
-
-      return $response;
-    }
 
     public function wpp_admin_menu(){
       register_setting( 'wpp_defaults', 'wpp_defaults' );
@@ -71,43 +56,54 @@ if( !class_exists( 'WP_API_Tester' ) ){
         <h1>That button</h1>
         <hr>
         <h2>It's that button</h2>
+        <p>This editor is evaluated within the wp-api-tester.php plugin file, and has access to all functions and GLOBAL variables that would otherwise be available at that time.</p>
+        <p>As a demonstration, go ahead and click the First Button! The secret_message() function is defined to the rest of PHP, to help illustrate my point.</p>
+        <div style="width: 80%;height: 400px;">
+          <div style="width: 80%;height: 400px;" id="editor">&lt;?php
+
+function my_first_function(){
+$a = 3;
+$b = 5;
+
+return array(
+  'Hello...' => $a + $b,
+  '...world!' => $b - $a,
+  'other-secret-stuff' => secret_message(),
+);
+}
+
+return my_first_function();</div>
+        </div>
         <p><input class="button-primary button" type="button" id="first-button" value="First Button"></p>
-        <p><input class="button-secondary button" type="button" value="Second Button" id="second-button"></p>
+        <style type="text/css" media="screen">
+          #editor {
+            position: absolute;
+          }
+        </style>
+        <script src="/wp-content/plugins/wp-api-tester/assets/js/ace.js" type="text/javascript" charset="utf-8"></script>
         <script>
+
+          var editor = ace.edit("editor");
+
           jQuery(document).ready(function(){
+
+            editor.setTheme("ace/theme/twilight");
+            editor.getSession().setMode("ace/mode/php");
 
             jQuery("#first-button").on('click', function(){
               var wpnonce = jQuery('#localized-info').attr('data-rest-nonce');
+
+              var code = editor.getValue();
+
+              var code = code.substring( code.indexOf("<" + "?php") + 5, code.length);
+
               jQuery.ajax({
                 type: 'get',
                 dataType: 'json',
                 url: '/wp-json/api/v1/first',
                 data: {
                   _wpnonce: wpnonce,
-                },
-                success: function(response) {
-                  if(response.success == false){
-                    console.log(response.data);
-                  }else{
-                    if( response.body && typeof response.body == 'string' ){
-                      response.body = JSON.parse( response.body );
-                    }
-
-                    jQuery("#domain-output").html( '<pre>' + JSON.stringify( response, null, 4 ) + '</pre>');
-                  }
-                }
-              }); // end ajax
-
-            }); // end button on click
-
-            jQuery("#second-button").on('click', function(){
-              var wpnonce = jQuery('#localized-info').attr('data-rest-nonce');
-              jQuery.ajax({
-                type: 'get',
-                dataType: 'json',
-                url: '/wp-json/api/v1/second',
-                data: {
-                  _wpnonce: wpnonce,
+                  code: code,
                 },
                 success: function(response) {
                   if(response.success == false){
