@@ -86,7 +86,7 @@ if( !class_exists( 'WP_API_Tester' ) ){
         <p>This editor is evaluated within the wp-api-tester.php plugin file, and has access to all functions and GLOBAL variables that would otherwise be available at that time.</p>
         <p>As a demonstration, go ahead and click the First Button! The secret_message() function is defined to the rest of PHP, to help illustrate my point.</p>
         <div style="width: 80%;height: 400px;">
-          <div style="width: 80%;height: 400px;" id="editor"><?php echo get_option( 'tester_code' ); ?></div>
+          <div style="width: 80%;height: 400px;" id="editor"><?php esc_html_e(get_option( 'tester_code' )); ?></div>
         </div>
         <p>
           <input class="button-primary button" type="button" id="first-button" value="Run Code">
@@ -141,8 +141,6 @@ if( !class_exists( 'WP_API_Tester' ) ){
               var wpnonce = jQuery('#localized-info').attr('data-rest-nonce');
 
               var code = editor.getValue();
-
-              code = code.replace(/</g, "&lt;");
 
               jQuery.ajax({
                 type: 'get',
