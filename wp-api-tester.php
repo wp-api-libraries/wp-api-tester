@@ -20,14 +20,14 @@ function tester_settings(){
   update_option('tester_code', "<?php
 
 function my_first_function(){
-$" . "a = 3;
-$" . "b = 5;
+  $" . "a = 3;
+  $" . "b = 5;
 
-return array(
-'Hello...' => $" . "a + $" . "b,
-'...world!' => $" . "b - $" . "a,
-'other-secret-stuff' => secret_message(),
-);
+  return array(
+    'Hello...' => $" . "a + $" . "b,
+    '...world!' => $" . "b - $" . "a,
+    'other-secret-stuff' => secret_message(),
+  );
 }
 
 return my_first_function();" );
