@@ -87,7 +87,7 @@ return my_first_function();</div>
 
           jQuery(document).ready(function(){
 
-            editor.setTheme("ace/theme/twilight");
+            editor.setTheme("ace/theme/tomorrow_night_eighties");
             editor.getSession().setMode("ace/mode/php");
 
             jQuery("#first-button").on('click', function(){
