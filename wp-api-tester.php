@@ -97,7 +97,7 @@ if( !class_exists( 'WP_API_Tester' ) ){
             position: absolute;
           }
         </style>
-        <script src="/wp-content/plugins/wp-api-tester/assets/js/ace.js" type="text/javascript" charset="utf-8"></script>
+        <script src="<?php echo plugin_dir_url( __FILE__ ) . '/assets/js/ace.js'; ?>" type="text/javascript" charset="utf-8"></script>
         <script>
 
           var editor = ace.edit("editor");
