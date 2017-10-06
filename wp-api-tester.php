@@ -165,6 +165,21 @@ if( !class_exists( 'WP_API_Tester' ) ){
 
             }); // end button on click
 
+            jQuery(document).on('keydown', function(e){
+              // ctrl + q
+              if( e.ctrlKey && e.which === 81 ){
+                jQuery("#first-button").trigger('click');
+                e.preventDefault();
+                return false;
+              }
+              // ctrl + s
+              if(e.ctrlKey && e.which === 83){ // Check for the Ctrl key being pressed, and if the key = [S] (83)
+                jQuery("#second-button").trigger('click');
+                e.preventDefault();
+                return false;
+              }
+            });
+
           }); // end document on ready
         </script>
         <div id="domain-output"></div>
