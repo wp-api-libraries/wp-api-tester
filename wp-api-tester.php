@@ -10,6 +10,12 @@
  * GitHub Branch: master
  */
 
+if( !function_exists( 'pp' ) ){
+  function pp($s, $a = ''){
+    error_log(($a == ''?'':$a.': ').print_r($s, true));
+  }
+}
+
 function secret_message(){
   return "I love you.";
 }
@@ -20,14 +26,14 @@ function tester_settings(){
   update_option('tester_code', "<?php
 
 function my_first_function(){
-  $" . "a = 3;
-  $" . "b = 5;
+    $" . "a = 3;
+    $" . "b = 5;
 
-  return array(
-    'Hello...' => $" . "a + $" . "b,
-    '...world!' => $" . "b - $" . "a,
-    'other-secret-stuff' => secret_message(),
-  );
+    return array(
+        'Hello...' => $" . "a + $" . "b,
+        '...world!' => $" . "b - $" . "a,
+        'other-secret-stuff' => secret_message(),
+    );
 }
 
 return my_first_function();" );
@@ -166,8 +172,9 @@ if( !class_exists( 'WP_API_Tester' ) ){
             }); // end button on click
 
             jQuery(document).on('keydown', function(e){
-              // ctrl + q
-              if( ( e.ctrlKey || e.metaKey ) && e.which === 81 ){
+              // ctrl + q or ctrl + e
+              // Avoid cmnd + q, since that kills the crab.
+              if( ( e.ctrlKey || e.metaKey ) && ( e.which === 81 || e.which === 69 ) ){
                 jQuery("#first-button").trigger('click');
                 e.preventDefault();
                 return false;
@@ -189,10 +196,6 @@ if( !class_exists( 'WP_API_Tester' ) ){
     }
 
   }
-}
-
-function pp($s, $a = ''){
-  error_log(($a == ''?'':$a.': ').print_r($s, true));
 }
 
 new WP_API_Tester();
