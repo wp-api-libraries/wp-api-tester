@@ -138,6 +138,10 @@ if( !class_exists( 'WP_API_Tester' ) ){
 
                     jQuery("#domain-output").html( '<pre>' + JSON.stringify( response, null, 4 ) + '</pre>');
                   }
+                },
+                error: function(response){
+                  console.log( response );
+                  jQuery("#domain-output").html( '<pre>' + JSON.stringify( response, null, 4 ) + '</pre>');
                 }
               }); // end ajax
 
@@ -166,6 +170,10 @@ if( !class_exists( 'WP_API_Tester' ) ){
 
                     jQuery("#domain-output").html( '<pre>' + JSON.stringify( response, null, 4 ) + '</pre>');
                   }
+                },
+                error: function(response){
+                  console.log( response );
+                  jQuery("#domain-output").html( '<pre>' + JSON.stringify( response, null, 4 ) + '</pre>');
                 }
               }); // end ajax
 
