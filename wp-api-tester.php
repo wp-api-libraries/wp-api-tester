@@ -1,8 +1,8 @@
 <?php
 /*
- * Plugin Name: A plugin used for running blocks of code at the click of a button (rather than a page refresh).
+ * Plugin Name: WP PHP Evaluater
  * Plugin URI: https://wp-api-libraries.com
- * Description: Perform API requests.
+ * Description: A plugin used for running blocks of code at the click of a button (rather than a page refresh).
  * Author: WP API Libraries
  * Version: 1.0.1
  * Author URI: https://wp-api-libraries.com
