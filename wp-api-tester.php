@@ -129,10 +129,10 @@ if( !class_exists( 'WP_API_Tester' ) ){
                   code: code,
                 },
                 success: function(response) {
-                  if(response.success == false){
+                  if(response && response.success == false){
                     console.log(response.data);
                   }else{
-                    if( response.body && typeof response.body == 'string' ){
+                    if( response && response.body && typeof response.body == 'string' ){
                       response.body = JSON.parse( response.body );
                     }
 
@@ -161,10 +161,10 @@ if( !class_exists( 'WP_API_Tester' ) ){
                   code: code,
                 },
                 success: function(response) {
-                  if(response.success == false){
+                  if(response && response.success == false){
                     console.log(response.data);
                   }else{
-                    if( response.body && typeof response.body == 'string' ){
+                    if( response && response.body && typeof response.body == 'string' ){
                       response.body = JSON.parse( response.body );
                     }
 
