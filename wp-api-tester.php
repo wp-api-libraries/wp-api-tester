@@ -1,6 +1,6 @@
 <?php
 /*
- * Plugin Name: WP PHP Evaluater
+ * Plugin Name: PHP Evaluater
  * Plugin URI: https://wp-api-libraries.com
  * Description: A plugin used for running blocks of code at the click of a button (rather than a page refresh).
  * Author: WP API Libraries
@@ -73,7 +73,7 @@ if( !class_exists( 'WP_API_Tester' ) ){
 
     public function wpp_admin_menu(){
       register_setting( 'wpp_defaults', 'wpp_defaults' );
-      add_management_page( 'WP API Do Me', 'WP API Do Me', 'manage_options', 'wp-apis', array( &$this, 'wpp_settings_page' ) );
+      add_management_page( 'PHP Evaluater', 'PHP Evaluater', 'manage_options', 'wp-apis', array( &$this, 'wpp_settings_page' ) );
     }
 
     public function permission_callback( $data ){
