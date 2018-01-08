@@ -73,7 +73,7 @@ if( !class_exists( 'WP_API_Tester' ) ){
 
     public function wpp_admin_menu(){
       register_setting( 'wpp_defaults', 'wpp_defaults' );
-      add_management_page( 'PHP Evaluater', 'PHP Evaluater', 'manage_options', 'wp-apis', array( &$this, 'wpp_settings_page' ) );
+      add_management_page( 'PHP Evaluater', 'PHP Evaluater', 'manage_options', 'wp-apis', array( &$this, 'wpp_settings_page' ) ); // WP API DO ME will be missed.
     }
 
     public function permission_callback( $data ){
