@@ -12,7 +12,7 @@
 
 if( !function_exists( 'pp' ) ){
   function pp($s, $a = ''){
-    error_log(($a == ''?'':$a.': ').print_r($s, true));
+    error_log(($a == ''?'':$s.': ').print_r(($a == ''?$s:$a, true));
   }
 }
 
