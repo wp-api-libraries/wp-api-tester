@@ -77,7 +77,15 @@ if( !class_exists( 'WP_API_Tester' ) ){
     }
 
     public function permission_callback( $data ){
-      return isset( $data['_wpnonce'] );
+      if ( ! current_user_can( 'manage_options' ) ) {
+  			 return new WP_Error(
+  				 'rest_forbidden_context', __( 'Sorry, you are not allowed to access this endpoint.' ), array(
+  					 'status' => rest_authorization_required_code(),
+  				 )
+  			 );
+  		}
+
+      return true;
     }
 
     public function wpp_settings_page(){
