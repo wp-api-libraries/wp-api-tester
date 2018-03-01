@@ -45,7 +45,7 @@ if( !class_exists( 'WP_API_Tester' ) ){
     public function __construct(){
       add_action( 'rest_api_init', function () {
       	register_rest_route( 'api/v1', 'first', array(
-      		'methods'	 => 'get',
+      		'methods'	 => 'post',
       		'callback' => array( &$this, 'run_code' ),
           'permission_callback' => array( &$this, 'permission_callback' ),
       	));
@@ -53,7 +53,7 @@ if( !class_exists( 'WP_API_Tester' ) ){
 
       add_action( 'rest_api_init', function () {
       	register_rest_route( 'api/v1', 'second', array(
-      		'methods'	 => 'get',
+      		'methods'	 => 'post',
       		'callback' => array( &$this, 'save_code' ),
           'permission_callback' => array( &$this, 'permission_callback' ),
       	));
@@ -94,13 +94,13 @@ if( !class_exists( 'WP_API_Tester' ) ){
       <meta id="localized-info" data-rest-nonce="<?php echo $nonce; ?>">
 
       <div class="wrap">
-        <h1>That button</h1>
+        <h1>That button!</h1>
         <hr>
         <h2>It's that button</h2>
         <p>This editor is evaluated within the wp-api-tester.php plugin file, and has access to all functions and GLOBAL variables that would otherwise be available at that time.</p>
         <p>As a demonstration, go ahead and click the First Button! The secret_message() function is defined to the rest of PHP, to help illustrate my point.</p>
-        <div style="width: 80%;height: 400px;">
-          <div style="width: 80%;height: 400px;" id="editor"><?php esc_html_e(get_option( 'tester_code' )); ?></div>
+        <div style="width: 80%;height: 700px;">
+          <div style="width: 80%;height: 700px;" id="editor"><?php esc_html_e(get_option( 'tester_code' )); ?></div>
         </div>
         <p>
           <input class="button-primary button" type="button" id="first-button" value="Run Code">
@@ -129,7 +129,7 @@ if( !class_exists( 'WP_API_Tester' ) ){
               var code = code.substring( code.indexOf("<" + "?php") + 5, code.length);
 
               jQuery.ajax({
-                type: 'get',
+                type: 'post',
                 dataType: 'json',
                 url: '/wp-json/api/v1/first',
                 data: {
@@ -161,7 +161,7 @@ if( !class_exists( 'WP_API_Tester' ) ){
               var code = editor.getValue();
 
               jQuery.ajax({
-                type: 'get',
+                type: 'post',
                 dataType: 'json',
                 url: '/wp-json/api/v1/second',
                 data: {
