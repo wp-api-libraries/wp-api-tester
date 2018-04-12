@@ -1,0 +1,1 @@
+var WEBSITE='posture-dance.local'; exports.WEBSITE=WEBSITE; var CONTENT_TYPE='plugin'; exports.CONTENT_TYPE=CONTENT_TYPE
