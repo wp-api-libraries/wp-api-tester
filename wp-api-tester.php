@@ -11,8 +11,10 @@
  */
 
 if( !function_exists( 'pp' ) ){
-  function pp($s, $a = ''){
-    error_log(($a == ''?'':$s.': ').print_r(($a == ''?$s:$a), true));
+  function pp($s, $a = null){
+    error_log(($a === null?'':$s.': ').print_r(($a === null?$s:$a), true));
+
+    return ($a === null?$s:$a);
   }
 }
 
