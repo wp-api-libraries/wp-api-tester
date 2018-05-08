@@ -65,13 +65,13 @@ if( !class_exists( 'WP_API_Tester' ) ){
     }
 
     public function run_code( $data ){
-      $result = eval( $data['code'] );
-
+      // Note with eval: Do not use any variables declared before eval's ran, since
+      // scope is a thing.
       if( ! empty( $data['output'] ) && $data['output'] == 'print_r' ){
-        $result = print_r( $result, true );
+        return print_r( eval( $data['code'] ), true );
+      }else{
+        return eval( $data['code'] );
       }
-
-      return $result;
     }
 
     public function save_code( $data ){
