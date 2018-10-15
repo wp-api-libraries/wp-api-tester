@@ -10,7 +10,7 @@
  * Plugin URI: https://wp-api-libraries.com
  * Description: A plugin used for running blocks of code at the click of a button (rather than a page refresh).
  * Author: WP API Libraries
- * Version: 1.2.1
+ * Version: 1.2.2
  * Author URI: https://wp-api-libraries.com
  * GitHub Plugin URI: https://github.com/wp-api-libraries
  * GitHub Branch: master
