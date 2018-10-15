@@ -43,7 +43,7 @@ if ( ! function_exists( 'pp' ) ) {
 	 *   [tj] => 5
 	 * )
 	 *
-	 * @param  mixed $s If $a is not null, then $s should strictly be a string. Otherwise,
+	 * @param  mixed $s If $a is not null, then $s should strictly be a string (or easy stringable). Otherwise,
 	 *                   it can be anything and will have print_r( $s, true ) wrapped
 	 *                   around it.
 	 * @param  mixed $a (Default: null) Used when you want to have a prepended description
